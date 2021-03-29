@@ -1,0 +1,161 @@
+<div>
+  <ng-wizard [config]="config" (stepChanged)="stepChanged($event)">
+
+    <ng-wizard-step [title]="'Registro'" [description]="'Ingresa los datos'"
+      [canEnter]="isValidTypeBoolean" [canExit]="isValidFunctionReturnsBoolean.bind(this)">
+      <div class="container">
+        <br>
+        <br>
+        <form class="mx-auto form-group" [formGroup]="idForm" (ngSubmit)="generateID()">
+
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <label for="name">Nombre</label>
+              <div class="input-group">
+                <input type="text" id="name" class="form-control" formControlName="name" required>
+              </div>
+              <div *ngIf="name.errors?.required">
+                Ingresa un nombre
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <label for="pLastName">Apellido paterno</label>
+              <div class="input-group">
+                <input type="text" id="pLastName" class="form-control" required formControlName="pLastName">
+              </div>
+              <div *ngIf="pLastName.errors?.required">
+                Ingresa un apellido paterno
+              </div>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="mLastName">Apellido materno</label>
+              <div class="input-group">
+                <input type="text" id="mLastName" class="form-control" required formControlName="mLastName">
+              </div>
+              <div *ngIf="mLastName.errors?.required">
+                Ingresa un apellido materno
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <label for="birthdate">Fecha de Nacimiento</label>
+              <div class="input-group">
+                <input type="date" id="birthdate" class="form-control" required formControlName="birthdate" #date (blur)="validateDate(date)">
+              </div>
+              <div *ngIf="birthdate.errors?.required">
+                Selecciona una nacionalidad
+              </div>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="gender">Género</label>
+              <div class="input-group">
+                <select [(ngModel)]="genderS"  formControlName="gender" class="form-control" required>
+                <option *ngFor="let gender of genders" [ngValue]="gender">
+                  {{gender.nombre}}
+                </option>
+              </select>
+              </div>
+              <div *ngIf="gender.errors?.required">
+                Selecciona un genero
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <label for="nacionality">Nacionalidad</label>
+              <div class="input-group">
+                <select [(ngModel)]="nacionalityS"  formControlName="nacionality" class="form-control" required>
+                  <option *ngFor="let nation of nacionalities" [ngValue]="nation">
+                    {{nation.nombre}}
+                  </option>
+                </select>
+              </div>
+              <div *ngIf="nacionality.errors?.required">
+                Selecciona una nacionalidad
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <label for="footballClub">Club de Fútbol</label>
+              <div class="input-group">
+                <select [(ngModel)]="club"  formControlName="footballClub" required data-show-content="true" class="form-control">
+                  <option *ngFor="let club of clubs" [ngValue]="club">
+                    {{club.nombre}}
+                  </option>
+                </select>
+              </div>
+              <div *ngIf="footballClub.errors?.required">
+                Selecciona un club de fútbol
+              </div>
+            </div>
+            <div class="form-group col-sm-6" *ngIf="showRFC">
+              <label for="rfc">RFC</label>
+              <div class="input-group">
+                <input type="text" id="rfc" class="form-control" formControlName="rfc">
+              </div>
+              <div *ngIf="rfc.errors?.pattern">
+                El RFC no cumple el patron establecido por el SAT.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <label for="occupation">Ocupación</label>
+              <div class="input-group">
+                <input type="text" id="occupation" class="form-control" formControlName="occupation" required>
+              </div>
+              <div *ngIf="occupation?.errors?.required">
+                Ingresa una ocupación
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <div style="display: flex; justify-content: space-around;">
+                <button type="submit" class="btn btn-primary">Enviar información</button>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </ng-wizard-step>
+
+    <ng-wizard-step [title]="'Vistra previa'" [description]="'Identificación generada'">
+      <div class="container id">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="logo" [ngStyle]="{'background-image': 'url(' + identification.footballClub.logo +')'}">
+
+            </div>
+          </div>
+          <div class="col-sm-8">
+            <div class="infoId">
+              <h3>{{identification.name}} {{identification.pLastName}} {{identification.mLastName}}</h3>
+              <h4>ID: {{idRandom}}</h4>
+              <h4>Club: {{identification.footballClub.nombre}}</h4>
+              <h4>{{identification.nationality.nombre}}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-wizard-step>
+
+    <ng-wizard-step [title]="'PDF'" [description]="'Genera el PDF'">
+      <div class="container">
+        <br><br>
+        <button (click)="generatePDF()"  class="btn btn-primary">Generar PDF</button>
+      </div>
+    </ng-wizard-step>
+  </ng-wizard>
+</div>

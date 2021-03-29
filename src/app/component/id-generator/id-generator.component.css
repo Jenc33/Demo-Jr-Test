@@ -1,0 +1,36 @@
+.content {
+  display: flex;
+  margin: 32px auto;
+  padding: 0 16px;
+  /*max-width: 960px;*/
+  flex-direction: column;
+  /*align-items: center;*/
+  justify-content: space-around;
+  align-items: flex-start;
+}
+.logo {
+  margin-top: 210%;
+  margin-left: 28%;
+  width: 150px;
+  height: 220px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.infoId {
+  margin-top: 100%;
+  margin-left : 20%;
+  width: 420px;
+  height: 525px;
+}
+.id{
+  background-image: url('../../../assets/img/id.jpg');
+  width: 700px;
+  height: 525px;
+  border: 5px;
+  border-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+}
